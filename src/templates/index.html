@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<p>
+  Welcome to the equipment management network.
+</p>
+<p>
+  Feel free to explore the navigation buttons you find above!
+</p>
+
+<div class="container text-center">
+  {% if current_user.is_authenticated %}
+  <h2>
+    Hi {{ current_user.name }}!
+  </h2>
+  <h4>
+    Here are your current equipment!
+  </h4>
+  {% if modelsExist %}
+  <p><span data-feather="plus"></span><a data-toggle="collapse" href="#addForm">New equipment</a></p>
+  {% endif %}
+  <td>
+    <ul>
+      {% for error in form.serialnumber.errors %}
+      <span style="color: red;"><span data-feather="alert-triangle"></span> {{ error }}</span>
+      {% endfor %}
+    </ul>
+  </td>
+
+  <div class="collapse" id="addForm">
+    <form method="POST" action="{{ url_for('equipment_add') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      <table class="table text-center" style="margin: auto; width: 35% !important;">
+        <tr>
+          <td>
+            {{ form.model.label}}
+          </td>
+          <td>
+            {{ form.model(class_="form-control") }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{ form.serialnumber.label}}
+          </td>
+          <td>
+            {{ form.serialnumber(class_="form-control")}}
+          </td>
+        </tr>
+      </table>
+      <tr>
+        <button type="submit" class="btn btn-success"> Add equipment </button>
+      </tr>
+    </form>
+  </div>
+
+  <hr class="colorgraph" />
+
+  <div class="container">
+    <table id="table_id" class="table table-striped table-dark table-sm">
+      <thead>
+        <tr>
+          <th>Serial Number</th>
+          <th>Model</th>
+          <th>Manufacturer</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for eqp in current_user.equipment %}
+        <tr>
+          <td>{{ eqp.serialnumber }}</td>
+          <td>{{ eqp.model.name }}</td>
+          <td>{{ eqp.model.manufacturer.name }}</td>
+          <td>
+            {% if eqp.isbroken %}
+            <span style="color: red; font-weight: bold;">(Broken)</span>
+            {% else %}
+            <span style="color: green; font-weight: bold;">OK</span>
+            {% endif %}
+          </td>
+          <td>
+            <form style="display:inline;" method="POST" action="{{ url_for('equipment_delete', id=eqp.id) }}">
+              <button data-toggle="tooltip" title="Delete" class="btn btn-danger" type="submit"><span
+                  data-feather="trash-2"></span></button>
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            </form>
+            {% if eqp.isbroken %}
+            <form style="display:inline;" method="POST" action="{{ url_for('equipment_break', id=eqp.id) }}">
+              <button data-toggle="tooltip" title="Mark as fixed" class="btn btn-success" type="submit"><span
+                  data-feather="tool"></span> </button>
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            </form>
+            {% else %}
+            <form style="display:inline;" method="POST" action="{{ url_for('equipment_break', id=eqp.id) }}">
+              <button data-toggle="tooltip" title="Mark as broken" class="btn btn-warning" type="submit"> <span
+                  data-feather="alert-triangle"> </button>
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script async defer type="text/javascript">
+  $(document).ready(function () {
+    $("select").select2({
+      width: '100%',
+      heigth: '100%'
+    });
+    $('#table_id').DataTable({
+      "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+      "pageLength": 25
+    });
+  });
+</script>
+{% endblock %}

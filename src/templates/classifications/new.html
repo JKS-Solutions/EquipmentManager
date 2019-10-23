@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form method="POST" action="{{ url_for('classifications_create') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  <table>
+    <tr>
+      <td>
+        {{ form.name.label }}
+      </td>
+      <td>
+        {{ form.name }}
+      </td>
+      <td>
+        {{ form.description.label }}
+      </td>
+      <td>
+        {{ form.description }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.name.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <input type="submit" value="Add a new classification" />
+      </td>
+    </tr>
+  </table>
+</form>
+{% endblock %}
