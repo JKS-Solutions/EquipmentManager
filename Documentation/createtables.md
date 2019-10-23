@@ -1,5 +1,5 @@
 ## Manufacturer :
-```
+```SQL
 CREATE TABLE manufacturer (
         id INTEGER NOT NULL,
         date_created DATETIME,
@@ -10,7 +10,7 @@ CREATE TABLE manufacturer (
 ```
 
 ## Classification
-```
+```SQL
 CREATE TABLE "Classification" (
         id INTEGER NOT NULL,
         date_created DATETIME,
@@ -22,7 +22,7 @@ CREATE TABLE "Classification" (
 ```
 
 ## User / Account
-```
+```SQL
 CREATE TABLE account (
         id INTEGER NOT NULL,
         date_created DATETIME,
@@ -35,7 +35,7 @@ CREATE TABLE account (
 ```
 
 ## Product / Model
-```
+```SQL
 CREATE TABLE product (
         id INTEGER NOT NULL,
         date_created DATETIME,
@@ -51,7 +51,7 @@ CREATE TABLE product (
 ```
 
 ## ClassificationProduct (junction table between classifications and products)
-```
+```SQL
 CREATE TABLE "ClassificationProduct" (
         classification_id INTEGER,
         product_id INTEGER,
@@ -61,7 +61,7 @@ CREATE TABLE "ClassificationProduct" (
 ```
 
 ## Equipment
-```
+```SQL
 CREATE TABLE equipment (
         id INTEGER NOT NULL,
         date_created DATETIME,

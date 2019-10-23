@@ -1,3 +1,11 @@
+## ToDo
+
+- [ ] Users can add certificates to their own equipment.
+- [ ] Users can set certificate lifespan (How long certificate is valid)
+- [ ] Users can view their certificates on one list, and sort them by next-to-expire
+- [ ] Users can add optional calibration coefficients to their equipment
+- [ ] Users can add warranty information to equipment
+- [ ] Users can add a copy of their receipt to the warranty information
 
 # Users
 - [x] It is possible to create an user
@@ -230,12 +238,3 @@ INSERT INTO "ClassificationProduct" (classification_id, product_id) VALUES (?, ?
 
 </p></details>
 </blockquote>
-
-## Stuff that will be implemented post-course / is not relevant for intents of the course
-
-- [ ] Users can add certificates to their own equipment.
-- [ ] Users can set certificate lifespan (How long certificate is valid)
-- [ ] Users can view their certificates on one list, and sort them by next-to-expire
-- [ ] Users can add optional calibration coefficients to their equipment
-- [ ] Users can add warranty information to equipment
-- [ ] Users can add a copy of their receipt to the warranty information
